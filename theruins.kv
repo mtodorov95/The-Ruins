@@ -1,0 +1,730 @@
+#:import utils kivy.utils
+
+<ScreenManager>:
+    home: Home
+    char: Char_create
+    main: Main
+    fight: Fight
+    shop: Shop
+
+    WelcomeScreen:
+        id: Home
+    CharScreen:
+        id: Char_create
+    MainScreen:
+        id: Main
+    FightScreen:
+        id: Fight
+    ShopScreen:
+        id: Shop
+
+<WelcomeScreen>:
+    name: 'home'
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                texture: app.texture
+        Image:
+            size_hint: 0.8, 0.6
+            source: 'assets/misc/title.png'
+            pos_hint: {'center_x': 0.5}
+            allow_stretch: True
+        CustomBtn:
+            text: 'Play'
+            font_name: 'War'
+            font_size: 32
+            pos_hint: {'center_x': 0.5}
+            size_hint: 0.15, 0.1
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.transition.duration = 0.5
+                root.manager.current = 'char'
+
+        Label:
+            id: ver
+            size_hint: 1, 0.3
+            text: f'ver: {root.version}'
+            halign: 'left'
+            valign: 'bottom'
+
+<CharScreen>:
+    name: 'char'
+    BoxLayout:
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                texture: app.texture
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.83
+            BoxLayout:
+                size_hint: (0.25, 1)
+                orientation: 'vertical'
+                ToggleButton:
+                    id: berserker
+                    group: 'character'
+                    background_color: (1, 1, 1, 0.5)
+                    background_normal: 'assets/char/berserker.png'
+                    background_down: 'assets/char/berserker.png'
+                    size_hint: (0.5, 0.4)
+                    allow_stretch: True
+                    pos_hint: {'center_x': 0.5}
+                    name: 'berserker'
+                    on_state:
+                        root.select(self)
+                        root.classes(self, self.state)
+                Label:
+                    font_name: 'War'
+                    pos_hint: {'center_x': 0.5}
+                    size_hint: (0.6, 0.6)
+                    font_size: 18
+                    markup: True
+                    text: '[color=rgba(255,0,0,255)][size=28]Berserker[/size][/color]\n\nHP:120\nATT:8\nDEF:12\n\n\n\nCan use Enrage to double\nATT at the cost of health.'
+                    halign: 'center'
+                    valign: 'middle'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (0.25, 1)
+                ToggleButton:
+                    id: paladin
+                    group: 'character'
+                    background_color: (1, 1, 1, 0.5)
+                    background_normal: 'assets/char/paladin.png'
+                    background_down: 'assets/char/paladin.png'
+                    size_hint: (0.5, 0.4)
+                    allow_stretch: True
+                    pos_hint: {'center_x': 0.5}
+                    name: 'paladin'
+                    on_state:
+                        root.select(self)
+                        root.classes(self, self.state)
+                Label:
+                    size_hint: (0.6, 0.6)
+                    pos_hint: {'center_x': 0.5}
+                    markup: True
+                    font_name: 'War'
+                    font_size: 18
+                    text: '[color=rgba(255,170,40,255)][size=28]Paladin[/size][/color]\n\nHP:110\nMP:8\nATT:8\nDEF:10\n\n\n\nCan heal themselves.'
+                    halign: 'center'
+                    valign: 'middle'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (0.25, 1)
+                ToggleButton:
+                    id: rogue
+                    group: 'character'
+                    background_color: (1, 1, 1, 0.5)
+                    background_normal: 'assets/char/rogue.png'
+                    background_down: 'assets/char/rogue.png'
+                    size_hint: (0.4, 0.4)
+                    allow_stretch: True
+                    pos_hint: {'center_x': 0.5}
+                    name: 'rogue'
+                    on_state:
+                        root.select(self)
+                        root.classes(self, self.state)
+                Label:
+                    size_hint: (0.6, 0.6)
+                    pos_hint: {'center_x': 0.5}
+                    markup: True
+                    font_name: 'War'
+                    font_size: 18
+                    text: '[color=rgba(0,255,0,200)][size=28]Rogue[/size][/color]\n\nHP:90\nATT:9\nDEF:8\n\nHas a chance\nto hit twice.\nCan use Flurry\nto increase it further.'
+                    halign: 'center'
+                    valign: 'middle'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (0.25, 1)
+                ToggleButton:
+                    id: mage
+                    group: 'character'
+                    background_color: (1, 1, 1, 0.5)
+                    background_normal: 'assets/char/mage.png'
+                    background_down: 'assets/char/mage.png'
+                    size_hint: (0.5, 0.4)
+                    allow_stretch: True
+                    pos_hint: {'center_x': 0.5}
+                    name: 'mage'
+                    on_state:
+                        root.select(self)
+                        root.classes(self, self.state)
+                Label:
+                    size_hint: (0.6, 0.6)
+                    pos_hint: {'center_x': 0.5}
+                    markup: True
+                    font_name: 'War'
+                    font_size: 18
+                    text: '[color=rgba(0,127,160,255)][size=28]Mage[/size][/color]\n\nHP:80\nMP:10\nATT:11\nDEF:7\n\nCan cast Pyroblast.\nCritical hits\nrestore mana.'
+                    halign: 'center'
+                    valign: 'middle'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, 0.17
+            spacing: 10
+            TextInput:
+                id: char_name
+                font_name: 'War'
+                hint_text: 'Character name'
+                size_hint: 0.15, 0.2
+                pos_hint: {'center_x': 0.5}
+                multiline: False
+                on_text: root.get_name()
+            CustomBtn:
+                id: confirm
+                disabled: True
+                text: 'Confirm'
+                font_name: 'War'
+                font_size: 24
+                size_hint: 0.2, 0.4
+                pos_hint: {'center_x': 0.5}
+                on_press:
+                    root.manager.create_char()
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 0.5
+                    root.manager.current = 'main'
+
+<MainScreen>:
+    name: 'main'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.08
+            Image:
+                size_hint: 0.05, 1
+                pos_hint: {'x': 0}
+                allow_stretch: True
+                source:'assets/misc/icon.png'
+            Label:
+                id: room
+                markup: True
+                text: ''
+                font_name: 'War'
+                font_size: 20
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, 0.92
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    texture: app.texture
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.8
+                Image:
+                    size_hint: 0.3, 0.5
+                    id: portrait
+                    allow_stretch: True
+                    source: ''
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 0.7, 1
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.1, 1
+                        Image:
+                            size_hint: 1, 0.2
+                            source: 'assets/misc/gear.png'
+                        GridLayout:
+                            rows: 1
+                            size_hint: 1, 0.1
+                            canvas.before:
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    source: 'assets/items/item_bg.png'
+                            Image:
+                                id: head_model
+                                size_hint: 1, 1
+                                source: ''
+                        Label:
+                            id: head
+                            font_name: 'War'
+                            size_hint: 1, 0.05
+                            text: ''
+                        GridLayout:
+                            rows: 1
+                            size_hint: 1, 0.1
+                            canvas.before:
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    source: 'assets/items/item_bg.png'
+                            Image:
+                                id: chest_model
+                                size_hint: 1, 1
+                                source: ''
+                        Label:
+                            id: chest
+                            font_name: 'War'
+                            size_hint: 1, 0.05
+                            text: ''
+                        GridLayout:
+                            rows: 1
+                            size_hint: 1, 0.1
+                            canvas.before:
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    source: 'assets/items/item_bg.png'
+                            Image:
+                                id: hands_model
+                                size_hint: 1, 1
+                                source: ''
+                        Label:
+                            id: hands
+                            font_name: 'War'
+                            size_hint: 1, 0.05
+                            text: ''
+                        GridLayout:
+                            rows: 1
+                            size_hint: 1, 0.1
+                            canvas.before:
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    source: 'assets/items/item_bg.png'
+                            Image:
+                                id: weapon1_model
+                                size_hint: 1, 1
+                                source: ''
+                        Label:
+                            id: weapon1
+                            font_name: 'War'
+                            size_hint: 1, 0.05
+                            text: ''
+                        GridLayout:
+                            rows: 1
+                            size_hint: 1, 0.1
+                            canvas.before:
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                                    source: 'assets/items/item_bg.png'
+                            Image:
+                                id: weapon2_model
+                                size_hint: 1, 1
+                                source: ''
+                        Label:
+                            id: weapon2
+                            font_name: 'War'
+                            size_hint: 1, 0.05
+                            text: ''
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.45, 1
+                        Label:
+                            size_hint: 1, 0.05
+                        Image:
+                            source: 'assets/misc/character.png'
+                            allow_stretch: True
+                            size_hint: 1, 0.15
+                        Label:
+                            id: character
+                            font_name: 'War'
+                            font_size: 20
+                            size_hint: 1, 0.7
+                            text: ''
+                            text_size: self.width, None
+                            halign: 'center'
+                            valign: 'middle'
+                        CustomBtn:
+                            id: spec
+                            font_name: 'War'
+                            font_size: 18
+                            text: ''
+                            size_hint: 0.5, 0.1
+                            pos_hint: {'x': 0.25}
+                            disabled: True
+                            on_press: root.manager.main.spec_select()
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.45, 1
+                        Label:
+                            size_hint: 1, 0.05
+                        Image:
+                            source: 'assets/misc/bag.png'
+                            allow_stretch: True
+                            size_hint: 1, 0.15
+                        Label:
+                            id: inventory
+                            font_name: 'War'
+                            size_hint: 1, 0.7
+                            font_size: 20
+                            text: ''
+                            text_size: self.width, None
+                            halign: 'center'
+                            valign: 'middle'
+                        CustomBtn:
+                            id: potion
+                            font_name: 'War'
+                            font_size: 18
+                            text: 'Use potion(+20 HP)'
+                            size_hint: 0.5, 0.1
+                            pos_hint: {'x': 0.25}
+                            disabled: True
+                            on_press: root.manager.player.use_potion()
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.2
+                Label:
+                    size_hint: 0.8, 1
+                CustomBtn:
+                    id: next_room
+                    text: ''
+                    font_name: 'War'
+                    font_size: 24
+                    size_hint: 0.2, 0.7
+                    pos_hint: {'right': 1}
+                    on_press: root.manager.generate_room(root.manager.room, root.manager.player)
+
+
+<FightScreen>:
+    name: 'fight'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.08
+            Image:
+                size_hint: 0.05, 1
+                pos_hint: {'x': 0}
+                allow_stretch: True
+                source:'assets/misc/icon.png'
+            Label:
+                markup: True
+                text: '[color=rgba(198,27,41,255)]Enemy encounter[/color]'
+                font_name: 'War'
+                font_size: 20
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, 0.92
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    texture: app.texture
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: 1, 1
+                GridLayout:
+                    cols: 3
+                    size_hint: 1, 0.8
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.2, 1
+                        Image:
+                            id: portrait
+                            size_hint: 0.6, 0.5
+                            allow_stretch: True
+                            pos_hint: {'center_x': 0.6, 'center_y': 0.4}
+                            source: ''
+                        Label:
+                            id: char_info
+                            font_name: 'War'
+                            font_size: 18
+                            text: ''
+                            size_hint: 1 , 0.1
+                            halign: 'center'
+                            valign: 'middle'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.6, 1
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            size_hint: 1, 0.3
+                            Label:
+                                id: char_nums
+                                font_name: 'War'
+                                size_hint: 0.1, 1
+                                text: ''
+                                font_size: 32
+                                halign: 'center'
+                                valign: 'middle'
+                                bold: True
+                                pos_hint: {'center_x': 0, 'top': 1}
+                            Label:
+                                id: char_heal
+                                font_name: 'War'
+                                size_hint: 0.1, 1
+                                font_size: 32
+                                halign: 'center'
+                                valign: 'middle'
+                                pos_hint: {'center_x': 0.1, 'top': 0.8}
+                            Label:
+                                size_hint: 0.8, 1
+                            Label:
+                                id: enemy_heal
+                                font_name: 'War'
+                                size_hint: 0.1, 1
+                                font_size: 32
+                                halign: 'center'
+                                valign: 'middle'
+                                pos_hint: {'center_x': 0.9, 'top': 0.8}
+                            Label:
+                                id: enemy_nums
+                                font_name: 'War'
+                                size_hint: 0.1, 1
+                                text: ''
+                                font_size: 32
+                                halign: 'center'
+                                valign: 'middle'
+                                bold: True
+                                pos_hint: {'center_x': 1, 'top': 1}
+                        Label:
+                            size_hint: 1, 0.7
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint: 0.2, 1
+                        Image:
+                            id: npc_portrait
+                            size_hint: 0.6, 0.5
+                            allow_stretch: True
+                            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+                            source: ''
+                        Label:
+                            id: npc_info
+                            font_name: 'War'
+                            font_size: 18
+                            text: ''
+                            size_hint: 1 , 0.1
+                            halign: 'center'
+                            valign: 'middle'
+                BoxLayout:
+                    size_hint: 1, 0.2
+                    orientation: 'horizontal'
+                    CustomBtn:
+                        id: btn1
+                        text: ''
+                        font_name: 'War'
+                        font_size: 28
+                        pos_hint: {'left': 0.9, 'center_y': 0.5}
+                        size_hint: 0.2, 0.7
+                        on_press:
+                            root.manager.fighting(self)
+                    Label:
+                        size_hint: 0.2, 1
+                    CustomBtn:
+                        id: leave
+                        disabled: True
+                        font_name: 'War'
+                        font_size: 18
+                        text: 'Leave combat'
+                        size_hint: 0.2, 0.5
+                        on_press:
+                            root.manager.transition.direction = 'right'
+                            root.manager.transition.duration = 0.5
+                            root.manager.current = 'main'
+                    Label:
+                        size_hint: 0.1, 1
+                    CustomBtn:
+                        id: potions
+                        font_name: 'War'
+                        font_size: 20
+                        text: ''
+                        halign: 'center'
+                        valign: 'middle'
+                        size_hint: 0.143, 0.7
+                        border_radius: [18, 0, 0, 18]
+                        pos_hint: {'right': 1, 'center_y': 0.5}
+                        disabled: True
+                        on_press: root.manager.player.use_potion()
+                    Label:
+                        size_hint: 0.004, 1
+                    CustomBtn:
+                        id: btn2
+                        font_name: 'War'
+                        font_size: 28
+                        text: ''
+                        pos_hint: {'right': 1, 'center_y': 0.5}
+                        size_hint: 0.143, 0.7
+                        border_radius: [0, 18, 18, 0]
+                        on_press:
+                            root.manager.fighting(self)
+
+<ShopScreen>:
+    name: 'shop'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.08
+            Image:
+                size_hint: 0.05, 1
+                pos_hint: {'x': 0}
+                allow_stretch: True
+                source:'assets/misc/icon.png'
+            Label:
+                markup: True
+                text: '[color=rgba(198,27,41,255)]Demon store[/color]'
+                font_name: 'War'
+                font_size: 20
+        BoxLayout:
+            orientation: 'vertical'
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    texture: app.texture
+            Label:
+                id: msg
+                font_name: 'War'
+                font_size: 18
+                size_hint: 1, 0.05
+                text: ''
+                halign: 'center'
+                valign: 'middle'
+            BoxLayout:
+                size_hint: 1, 0.7
+                orientation: 'horizontal'
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 0.1, 1
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 0.1, 1
+                    ToggleButton:
+                        id: item1
+                        name: 'weapon'
+                        group: 'store'
+                        size_hint: 1, 0.25
+                        background_color: (1, 1, 1, 0.5)
+                        background_normal: ''
+                        background_down: ''
+                        allow_stretch: True
+                        on_state:
+                            root.select(self)
+                            root.choice(self, self.state)
+                    ToggleButton:
+                        id: item2
+                        name: 'armor'
+                        group: 'store'
+                        size_hint: 1, 0.25
+                        background_color: (1, 1, 1, 0.5)
+                        background_normal: ''
+                        background_down: ''
+                        allow_stretch: True
+                        on_state:
+                            root.select(self)
+                            root.choice(self, self.state)
+                    ToggleButton:
+                        id: item3
+                        name: 'tome'
+                        group: 'store'
+                        size_hint: 1, 0.25
+                        background_color: (1, 1, 1, 0.5)
+                        background_normal: ''
+                        background_down: ''
+                        allow_stretch: True
+                        on_state:
+                            root.select(self)
+                            root.choice(self, self.state)
+                    ToggleButton:
+                        id: item4
+                        name: 'potion'
+                        group: 'store'
+                        size_hint: 1, 0.25
+                        background_color: (1, 1, 1, 0.5)
+                        background_normal: 'assets/items/potion.png'
+                        background_down: 'assets/items/potion.png'
+                        allow_stretch: True
+                        on_state:
+                            root.select(self)
+                            root.choice(self, self.state)
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 0.6, 1
+                    Label:
+                        id: weapon
+                        font_name: 'War'
+                        font_size: 20
+                        text: ''
+                        halign: 'center'
+                        valign: 'middle'
+                    Label:
+                        id: armor
+                        font_name: 'War'
+                        font_size: 20
+                        text: ''
+                        halign: 'center'
+                        valign: 'middle'
+                    Label:
+                        id: tome
+                        font_name: 'War'
+                        font_size: 20
+                        text: ''
+                        halign: 'center'
+                        valign: 'middle'
+                    Label:
+                        id: potion
+                        font_name: 'War'
+                        font_size: 20
+                        text: ''
+                        halign: 'center'
+                        valign: 'middle'
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 0.2, 1
+                    Image:
+                        size_hint: 1, 0.2
+                        source: 'assets/char/merchant.png'
+                        allow_stretch: True
+            CustomBtn:
+                id: buy
+                size_hint: 0.2, 0.05
+                text: 'Buy'
+                font_name: 'War'
+                font_size: 24
+                disabled: True
+                pos_hint: {'x': 0.4}
+                on_press: root.buy()
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, 0.2
+                Image:
+                    id: portrait
+                    size_hint: 0.2, 1
+                    allow_stretch: True
+                    source: 'assets/char/berserker.png'
+                Image:
+                    size_hint: 0.05, 0.5
+                    source: 'assets/items/coins.png'
+                    allow_stretch: True
+                Label:
+                    id: coins
+                    font_name: 'War'
+                    font_size: 18
+                    size_hint: 0.1, 0.5
+                    text: ''
+                Label:
+                    size_hint: 0.45, 1
+                CustomBtn:
+                    text: 'Leave store'
+                    font_name: 'War'
+                    font_size: 24
+                    size_hint: 0.2, 0.7
+                    pos_hint: {'right': 1}
+                    on_press: root.manager.current = 'main'
+
+<OldCustomBtn@Button>:
+    background_down: 'assets/misc/std_btn_dis.png'
+    background_disabled_normal: 'assets/misc/std_btn_dis.png'
+    background_normal: 'assets/misc/std_btn.png'
+
+<CustomBtn@Button>:
+    background_color: (0, 0, 0, 0)
+    background_normal: ''
+    border_radius: [18]
+    canvas.before:
+        Color:
+            rgb: utils.get_color_from_hex('#5d0013')
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
